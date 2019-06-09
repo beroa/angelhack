@@ -10,9 +10,11 @@ let handleFail = function(err){
 };
 function ChangeState() {
   if (activated === false) {
+    document.getElementById("start/stop").innerHTML = "Stop";
     activated = true;
   }
   else {
+    document.getElementById("start/stop").innerHTML = "Start";
     activated = false;
   }
   socket.emit("activated", activated);
@@ -124,7 +126,7 @@ socket.on('connect',(d,e)=>{
             img = img.split("data:image/png;base64,")[1];
             //console.log("Send data", {'image': img});
             socket.emit("image&ac",{'image': img}, activated)
-            timer-=3000;
+            timer-=1;
             //console.log(inter);
             (timer<=0)?clearInterval(inter):null;//:console.log(timer);
         },800);
