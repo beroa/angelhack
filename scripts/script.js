@@ -10,17 +10,17 @@ let handleFail = function(err){
 };
 function ChangeState() {
   if (activated === false) {
-    document.getElementById("start/stop").innerHTML = "Stop";
+    document.getElementById("start/stop").classList.remove("glyphicon-play");
+    document.getElementById("start/stop").classList.add("glyphicon-stop");
     activated = true;
   }
   else {
-    document.getElementById("start/stop").innerHTML = "Start";
+    document.getElementById("start/stop").classList.remove("glyphicon-stop");
+    document.getElementById("start/stop").classList.add("glyphicon-play");
     activated = false;
   }
   socket.emit("activated", activated);
   console.log(activated);
-
-
 }
 
 // Queries the container in which the remote feeds belong
@@ -143,7 +143,29 @@ socket.on('message', function (message) {
 socket.on('timeAndEmotion', function(timestamp, emotion) {
   console.log(timestamp);
   console.log(emotion);
+  emotionNumbers = []
+  for (i=0; i < emotion.length; i++){
+    if (emotion[i] === "sad"){
+      emotionNumbers[i] = 10;
+
+    }else{
+      emotionNumbers[i] = 0;
+    }
+  }
+  var ctx = document.getElementById("myChart");
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: timestamp,
+      datasets: [
+        {
+          data: emotionNumbers
+        }
+      ]
+    }
+  });
 });
+
 let client = AgoraRTC.createClient({
     mode: 'live',
     codec: "h264"
@@ -174,7 +196,6 @@ client.join(null,"any-channel",null, (uid)=>{
         client.publish(localStream, handleFail);
 
     },handleFail);
-
 },handleFail);
 //When a stream is added to a channel
 client.on('stream-added', function (evt) {
