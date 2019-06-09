@@ -117,17 +117,13 @@ const socket = io('ws://localhost:8000/ml');
 socket.on('connect',(d,e)=>{
     console.log("connected to socket !");
     canvasPromise.then(function () {
-        let timer=30000;
         let inter=setInterval(()=>{
             //console.log("canvas created");
             let img=canvas.toDataURL();
             img = img.split("data:image/png;base64,")[1];
             //console.log("Send data", {'image': img});
             socket.emit("image&ac",{'image': img}, activated)
-            timer-=3000;
-            //console.log(inter);
-            (timer<=0)?clearInterval(inter):null;//:console.log(timer);
-        },800);
+        },200);
     });
 });
 socket.on('message', function (message) {
