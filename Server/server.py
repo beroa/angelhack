@@ -17,7 +17,7 @@ def hello():
 emotions = []
 @socketio.on('image&ac', namespace=r'/ml')
 def handle_my_custom_event(message, activated):
-    # print('Got image')
+    print('Got image')
     image = message['image']
     img = imread(io.BytesIO(base64.b64decode(image)))
     cv2_img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
@@ -40,9 +40,12 @@ def handle_my_custom_event(message, activated):
     # print(result_im[:20])
 
     send({'result': result_im})
-    if len(emotions)%100 == 30:
-        print(activated)
-        print(emotions)
+    # if len(emotions)%100 == 30:
+    #     print(activated)
+    #     print(emotions)
+
+    print("timeline")
+    socketio.emit("timeline", emotions)
 
 
 if __name__ == '__main__':

@@ -25,7 +25,6 @@ face_cascade = cv2.CascadeClassifier('./models/face_box.xml')
 emotion_classifier = load_model(emotion_model_path)
 graph = tf.get_default_graph()
 
-
 # getting input model shapes for inference
 emotion_target_size = emotion_classifier.input_shape[1:3]
 
@@ -38,6 +37,8 @@ def final_ml_predict(bgr_image):
 
     faces = face_cascade.detectMultiScale(gray_image, scaleFactor=1.1, minNeighbors=5,
 			minSize=(30, 30), flags=cv2.CASCADE_SCALE_IMAGE)
+
+    emotion_text = ""
 
     for face_coordinates in faces:
 
@@ -67,15 +68,11 @@ def final_ml_predict(bgr_image):
 
         if emotion_text == 'angry':
             color = emotion_probability * np.asarray((255, 0, 0))
-            emotions.append('angry')
         elif emotion_text == 'sad':
             color = emotion_probability * np.asarray((0, 0, 255))
-            emotions.append('sad')
         elif emotion_text == 'happy':
             color = emotion_probability * np.asarray((255, 255, 0))
-            emotions.append('happy')
         elif emotion_text == 'surprise':
-            emotions.append('surpise')
             color = emotion_probability * np.asarray((0, 255, 255))
         else:
             color = emotion_probability * np.asarray((0, 255, 0))
