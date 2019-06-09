@@ -31,8 +31,6 @@ emotion_target_size = emotion_classifier.input_shape[1:3]
 
 # starting lists for calculating modes
 emotion_window = []
-
-
 # Select video or webcam feed
 def final_ml_predict(bgr_image):
     gray_image = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2GRAY)
@@ -69,11 +67,15 @@ def final_ml_predict(bgr_image):
 
         if emotion_text == 'angry':
             color = emotion_probability * np.asarray((255, 0, 0))
+            emotions.append('angry')
         elif emotion_text == 'sad':
             color = emotion_probability * np.asarray((0, 0, 255))
+            emotions.append('sad')
         elif emotion_text == 'happy':
             color = emotion_probability * np.asarray((255, 255, 0))
+            emotions.append('happy')
         elif emotion_text == 'surprise':
+            emotions.append('surpise')
             color = emotion_probability * np.asarray((0, 255, 255))
         else:
             color = emotion_probability * np.asarray((0, 255, 0))
@@ -84,6 +86,6 @@ def final_ml_predict(bgr_image):
         draw_bounding_box(face_coordinates, rgb_image, color)
         draw_text(face_coordinates, rgb_image, emotion_mode,
                   color, 0, -45, 1, 1)
-
+    
     bgr_image = cv2.cvtColor(rgb_image, cv2.COLOR_RGB2BGR)
-    return bgr_image
+    return bgr_image, emotion_text

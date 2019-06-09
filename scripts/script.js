@@ -3,9 +3,23 @@
  * @param err - error thrown by any function
  * @description Helper function to handle errors
  */
+
+let activated = false;
 let handleFail = function(err){
     console.log("Error : ", err);
 };
+function ChangeState() {
+  if (activated === false) {
+    activated = true;
+  }
+  else {
+    activated = false;
+  }
+  socket.emit("activated", activated);
+  console.log(activated);
+
+
+}
 
 // Queries the container in which the remote feeds belong
 let remoteContainer= document.getElementById("remote-container");
@@ -98,18 +112,19 @@ function addCanvas(streamId){
 // Client Setup
 // Defines a client for RTC
 
-const socket = io.connect('ws://localhost:8000/ml');
+const socket = io('ws://localhost:8000/ml');
 
 socket.on('connect',(d,e)=>{
     console.log("connected to socket !");
     canvasPromise.then(function () {
+      socket.emit(activated)
         let timer=30000;
         let inter=setInterval(()=>{
             console.log("canvas created");
             let img=canvas.toDataURL();
             img = img.split("data:image/png;base64,")[1];
             console.log("Send data", {'image': img});
-            socket.emit("json",{'image': img});
+            socket.emit("image&ac",{'image': img}, activated)
             // timer-=3000;
             console.log(inter);
             (timer<=0)?clearInterval(inter):console.log(timer);
@@ -131,7 +146,7 @@ let client = AgoraRTC.createClient({
 
 // Client Setup
 // Defines a client for Real Time Communication
-client.init("0f8c9bf146ed4fd9a2210981b3ec9ef7",() => console.log("AgoraRTC client initialized") ,handleFail);
+client.init("0e2c881e91714e6da94b1cbf5b0f9f25",() => console.log("AgoraRTC client initialized") ,handleFail);
 
 // The client joins the channel
 client.join(null,"any-channel",null, (uid)=>{
@@ -140,9 +155,8 @@ client.join(null,"any-channel",null, (uid)=>{
     let localStream = AgoraRTC.createStream({
         streamID: uid,
         audio: false,
-        video: false,
-        screen: true,
-        mediaSource: 'screen'
+        video: true,
+        screen: false
     });
 
     // Associates the stream to the client
