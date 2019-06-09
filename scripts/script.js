@@ -117,28 +117,31 @@ const socket = io('ws://localhost:8000/ml');
 socket.on('connect',(d,e)=>{
     console.log("connected to socket !");
     canvasPromise.then(function () {
-      socket.emit(activated)
         let timer=30000;
         let inter=setInterval(()=>{
-            console.log("canvas created");
+            //console.log("canvas created");
             let img=canvas.toDataURL();
             img = img.split("data:image/png;base64,")[1];
-            console.log("Send data", {'image': img});
+            //console.log("Send data", {'image': img});
             socket.emit("image&ac",{'image': img}, activated)
-            // timer-=3000;
-            console.log(inter);
-            (timer<=0)?clearInterval(inter):console.log(timer);
-        },200);
+            timer-=3000;
+            //console.log(inter);
+            (timer<=0)?clearInterval(inter):null;//:console.log(timer);
+        },800);
     });
 });
 socket.on('message', function (message) {
     let newImg = document.createElement('img');
     newImg.src="data:image/png;base64,"+message.result;
     resultContainer.innerHTML="";
-    resultContainer.appendChild(newImg);
+      resultContainer.appendChild(newImg);
     console.log(message);
 });
 
+socket.on('timeAndEmotion', function(timestamp, emotion) {
+  console.log(timestamp);
+  console.log(emotion);
+});
 let client = AgoraRTC.createClient({
     mode: 'live',
     codec: "h264"
