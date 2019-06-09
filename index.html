@@ -2,18 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Video Call Demo</title>
+    <title>MovieMoji</title>
     <link rel="stylesheet" href="./styles/style.css">
 </head>
 <body>
 <h1>
-    Video Call Demo<br><small style="font-size: 14pt">Powered by Agora.io</small>
+    Senti
 </h1>
-<h4>My Feed :</h4>
+<h4>built with AgoraIO</h4>
+<br>
+<h4>My Video :</h4>
 <div id="me"></div>
 
-<h4>Remote Feeds :</h4>
-<div id="remote-container" style="text-align: center; margin-left: 30%; marign-right: 30%;">
+<h4>Friends :</h4>
+<div id="remote-container" style="text-align: center; margin-left: 30%; margin-right: 30%;">
 
 </div>
 <div style="display: none;">
@@ -23,11 +25,14 @@
     </div>
 </div>
 
-<h4>Result :</h4>
+<h4>Sentiment :</h4>
 <div id="result-container" style="text-align: center;">
 </div>
 <div>
 
+ <div style="text-align: center;">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/rlR4PJn8b8I" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+ </div>   
 <button onclick="ChangeState()"> Start </button>
 <script src="./scripts/socket.io.js"></script>
 <script src="scripts/AgoraRTCSDK-2.4.0.js"></script>
