@@ -17,9 +17,14 @@ function ChangeState() {
   }
   socket.emit("activated", activated);
   console.log(activated);
-
-
 }
+
+let table = document.getElementById("log-table");
+
+// let inter=setInterval(()=>{
+
+    // table.innerHTML += "<tr><td>"+ "</td><td>emotion</td></tr"    
+// },200);
 
 // Queries the container in which the remote feeds belong
 let remoteContainer= document.getElementById("remote-container");
@@ -135,8 +140,10 @@ socket.on('message', function (message) {
 });
 
 socket.on('timeAndEmotion', function(timestamp, emotion) {
+  console.log("timeandemotion called")
   console.log(timestamp);
   console.log(emotion);
+  table.innerHTML += "<tr><td>"+timestamp[timestamp.length-1]+"</td><td>"+emotion[emotion.length-1]+"</td></tr>" 
 });
 let client = AgoraRTC.createClient({
     mode: 'live',
