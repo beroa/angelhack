@@ -2,7 +2,7 @@ opencv_python==3.4.3.18
 scipy==1.1.0
 h5py==2.7.1
 Keras==2.2.4
-tensorflow==1.8.0
+tensorflow==2.6.4
 Flask==1.0.2
 Flask_SocketIO==3.0.2
 pandas==0.23.0
